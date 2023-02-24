@@ -22,6 +22,23 @@ export default defineComponent({
 </script>
 
 <template>
-	<input v-model="todoTitle" :id="todoTitleTextInputId" />
-	<input v-model="hourEstimation" :id="hourEstimationNumberInputId" />
+	<div class="todo">
+		<input v-model="todoTitle" :id="todoTitleTextInputId" class="todo-title" />
+		<input v-model="hourEstimation" :id="hourEstimationNumberInputId" class="todo-estimated-hours" />
+	</div>
 </template>
+
+<style>
+.todo {
+	display: flex;
+	flex-direction: row;
+}
+
+.todo-title {
+	width: 40rem;
+}
+
+.todo-estimated-hours {
+	width: 3rem;
+}
+</style>

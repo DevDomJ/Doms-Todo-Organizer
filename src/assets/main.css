@@ -8,6 +8,13 @@
   font-weight: normal;
 }
 
+input {
+  font-size: medium;
+  margin: 10px;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+}
+
 a,
 .green {
   text-decoration: none;
