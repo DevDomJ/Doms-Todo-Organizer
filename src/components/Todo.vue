@@ -1,19 +1,22 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import type { PropType } from 'vue'
+import type { ApiTodo } from "./TodoList.vue";
 
 export default defineComponent({
 	// type inference enabled
 	props: {
-		todoTitle: String,
-		hourEstimation: Number,
-		todoId: [Number, String]
+		apiTodo: {
+			type: Object as PropType<ApiTodo>,
+			required: true
+		}
 	},
 	computed: {
 		todoTitleTextInputId() {
-			return "todoTitleTextInput" + this.todoId;
+			return "todoTitleTextInput" + this.apiTodo.id;
 		},
 		hourEstimationNumberInputId() {
-			return "hourEstimationNumberInput" + this.todoId;
+			return "hourEstimationNumberInput" + this.apiTodo.id;
 		}
 	},
 	mounted() {
@@ -23,8 +26,9 @@ export default defineComponent({
 
 <template>
 	<div class="todo">
-		<input v-model="todoTitle" :id="todoTitleTextInputId" class="todo-title" />
-		<input v-model="hourEstimation" :id="hourEstimationNumberInputId" class="todo-estimated-hours" />
+		<button class="add-todo-button" @click="$emit('insertTask')">+</button>
+		<input v-model="apiTodo.todo" :id="todoTitleTextInputId" class="todo-title" />
+		<input v-model="apiTodo.hourEstimation" :id="hourEstimationNumberInputId" class="todo-estimated-hours" />
 	</div>
 </template>
 
@@ -35,10 +39,18 @@ export default defineComponent({
 }
 
 .todo-title {
-	width: 40rem;
+	width: 100%;
 }
 
 .todo-estimated-hours {
-	width: 3rem;
+	min-width: 3rem;
+	width: 13%;
+	text-align: right;
+}
+
+.add-todo-button {
+	margin: 5px;
+	width: 2.5rem;
+	font-size: large;
 }
 </style>

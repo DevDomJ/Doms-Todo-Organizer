@@ -2,9 +2,10 @@
 import { defineComponent } from 'vue'
 import Todo from './Todo.vue'
 
-type ApiTodo = {
+export type ApiTodo = {
 	id: string,
-	todo: string
+	todo: string,
+	hourEstimation: number
 }
 
 type ApiTodoList = {
@@ -21,8 +22,12 @@ export default defineComponent({
 	computed: {},
 	methods: {
 		async fetchTodos() {
-			const result = await fetch('https://dummyjson.com/todos?limit=3&skip=10');
+			const result = await fetch('https://dummyjson.com/todos?limit=10&skip=10');
 			this.todos = (await result.json() as unknown as ApiTodoList).todos;
+			this.todos.forEach((todo) => todo.hourEstimation = 0);
+		},
+		insertTaskClicked(event: Event) {
+			return event;
 		}
 	},
 	components: {
@@ -38,10 +43,10 @@ export default defineComponent({
 <template>
 	<div class="todo-list-header">
 		<div class="header-label">Todo Title</div>
-		<div class="header-label">Estimated Hours</div>
+		<div class="header-label" style="text-align: right">Estimated Hours</div>
 	</div>
 	<div class="todo-list">
-		<Todo v-for="todo in todos" :hour-estimation="0" :todo-title="todo.todo" :todoId="todo.id" />
+		<Todo v-for="todo in todos" @insertTask="insertTaskClicked" :apiTodo="todo" />
 	</div>
 </template>
 
@@ -53,7 +58,7 @@ export default defineComponent({
 
 .header-label {
 	width: 100%;
-	padding-left: 10px;
+	padding-left: 5px;
 	font-size: large;
 	font-weight: bold;
 }

@@ -10,9 +10,10 @@
 
 input {
   font-size: medium;
-  margin: 10px;
+  margin: 4px 10px 4px 2px;
   height: 2.5rem;
   border-radius: 0.5rem;
+  padding: 7px;
 }
 
 a,
