@@ -26,7 +26,7 @@ export default defineComponent({
 
 <template>
 	<div class="todo">
-		<button class="add-todo-button" @click="$emit('insertTask')">+</button>
+		<button class="add-todo-button" @click="$emit('insertTask', $event)">+</button>
 		<input v-model="apiTodo.todo" :id="todoTitleTextInputId" class="todo-title" />
 		<input v-model="apiTodo.hourEstimation" :id="hourEstimationNumberInputId" class="todo-estimated-hours" />
 	</div>
@@ -36,6 +36,9 @@ export default defineComponent({
 .todo {
 	display: flex;
 	flex-direction: row;
+	/* display: grid;
+	grid-template-columns: 2.5rem 8fr 1fr;
+	grid-column-gap: 10px; */
 }
 
 .todo-title {

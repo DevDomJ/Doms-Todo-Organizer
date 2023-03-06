@@ -19,7 +19,16 @@ export default defineComponent({
 			todos: []
 		}
 	},
-	computed: {},
+	computed: {
+		nextFreeId() {
+			let nextId: number = 0;
+			this.todos.forEach((apiTodo) => {
+				let parsedId = parseInt(apiTodo.id);
+				nextId = (parsedId > nextId ? parsedId : nextId)
+			});
+			return String(++nextId);
+		}
+	},
 	methods: {
 		async fetchTodos() {
 			const result = await fetch('https://dummyjson.com/todos?limit=10&skip=10');
@@ -27,6 +36,12 @@ export default defineComponent({
 			this.todos.forEach((todo) => todo.hourEstimation = 0);
 		},
 		insertTaskClicked(event: Event) {
+			let newTodo: ApiTodo = {
+				id: this.nextFreeId,
+				todo: this.nextFreeId,
+				hourEstimation: 0
+			};
+			this.todos.splice(2, 0, newTodo);
 			return event;
 		}
 	},
@@ -64,6 +79,7 @@ export default defineComponent({
 }
 
 .todo-list {
+	/* Use grid here instead? */
 	display: flex;
 	flex-direction: column;
 }
