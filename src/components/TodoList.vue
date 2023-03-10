@@ -5,7 +5,9 @@ import Todo from './Todo.vue'
 export type ApiTodo = {
 	id: string,
 	todo: string,
-	hourEstimation: number
+	hourEstimation: number,
+	dueDate: Date | null,
+	canBeSplit: boolean
 }
 
 type ApiTodoList = {
@@ -31,15 +33,21 @@ export default defineComponent({
 	},
 	methods: {
 		async fetchTodos() {
+			// Rewrite to get it from C# REST API instead
 			const result = await fetch('https://dummyjson.com/todos?limit=10&skip=10');
 			this.todos = (await result.json() as unknown as ApiTodoList).todos;
-			this.todos.forEach((todo) => todo.hourEstimation = 0);
+			this.todos.forEach((todo) => {
+				todo.hourEstimation = 0;
+				todo.canBeSplit = false;
+			});
 		},
 		insertTaskClicked(event: Event) {
 			let newTodo: ApiTodo = {
 				id: this.nextFreeId,
 				todo: this.nextFreeId,
-				hourEstimation: 0
+				hourEstimation: 0,
+				dueDate: null,
+				canBeSplit: false
 			};
 			this.todos.splice(2, 0, newTodo);
 			return event;
@@ -49,7 +57,6 @@ export default defineComponent({
 		Todo
 	},
 	mounted() {
-		// get todos from API here
 		this.fetchTodos();
 	}
 })

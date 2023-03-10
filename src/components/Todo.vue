@@ -55,5 +55,14 @@ export default defineComponent({
 	margin: 5px;
 	width: 2.5rem;
 	font-size: large;
+	visibility: hidden;
+}
+
+.todo:hover .add-todo-button {
+	visibility: visible;
+}
+
+.add-todo-button:hover {
+	background-color: rgb(57, 211, 254);
 }
 </style>
